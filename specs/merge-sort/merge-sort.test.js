@@ -6,8 +6,35 @@
   You'll need to write more than just one function
 */
 
+const { dropRight } = require("lodash");
+
 const mergeSort = (nums) => {
-  // code goes here
+  const half = Math.ceil(nums.length / 2);
+  const arr1 = nums.slice(0, half);
+  const arr2 = nums.slice(-half);
+
+  const sortedArr1 = mergeSort(arr1);
+  const sortedArr2 = mergeSort(arr2);
+
+  return merge(sortedArr1, sortedArr2);
+}
+
+const merge = (left, right) => {
+  const results = [];
+
+  // go until one list runs outs
+  while (left.length && right.length) {
+    if (left[0] <= right[0]) {
+      // shift removes the first element in an array and returns it
+      // it's like .pop() for the front
+      results.push(left.shift());
+    } else {
+      results.push(right.shift());
+    }
+  }
+
+  // either left or right will be empty so you can safely concat both
+  return results.concat(left, right);
 };
 
 // unit tests
